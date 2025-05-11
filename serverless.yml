@@ -1,0 +1,84 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: arceosalibio
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: my-library-appp
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: mylibrary
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-southeast-2
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action: "*"
+      Resource: "*"
+
+  environment:
+    DYNAMODB_TABLE: my-library
+
+  httpApi:
+    cors:
+      allowedOrigins:
+        - http://localhost:5173
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+        - x-api-key
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowCredentials: true
+    
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  create:
+    handler: functions/create.main
+    events:
+      - httpApi:
+          path : /items
+          method: post
+
+  getItem:
+    handler: functions/getItem.main
+    events:
+      - httpApi:
+          path: /items/{id}
+          method: get
+  
+  searchTitle:
+    handler: functions/searchTitle.main
+    events:
+      - httpApi:
+          path: /items/search/{keyword}
+          method: get
+
+  getAll:
+    handler: functions/getAll.main
+    events:
+      - httpApi:
+          path: /library
+          method: get
+        
+  update:
+    handler: functions/update.main
+    events:
+      - httpApi:
+          path: /update/{id}
+          method: put
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
