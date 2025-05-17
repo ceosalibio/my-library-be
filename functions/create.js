@@ -16,6 +16,7 @@ exports.main = async (event) => {
 
     const item = {
       id: uuidv4(),
+      PK: "ITEM",
       title: String(body.title || ""),
       description: body.description, // Array of objects is fine
       views: Number(body.views) || 0,

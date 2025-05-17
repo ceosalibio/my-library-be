@@ -38,7 +38,7 @@ exports.main = async (event) => {
             ExpressionAttributeNames: {
                 "#v": "views"
             },
-            ExpressionAttributeValues: marshall(updateValues),
+            ExpressionAttributeValues: marshall(updateValues, { removeUndefinedValues: true }),
             ReturnValues: "ALL_NEW"
         };
 

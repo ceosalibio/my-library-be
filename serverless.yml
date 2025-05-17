@@ -22,6 +22,7 @@ provider:
     cors:
       allowedOrigins:
         - http://localhost:5173
+        - https://ceo-library.netlify.app
       allowedHeaders:
         - Content-Type
         - Authorization
@@ -76,6 +77,13 @@ functions:
       - httpApi:
           path: /update/{id}
           method: put
+
+  delete:
+    handler: functions/delete.main
+    events:
+      - httpApi:
+          path: /delete/{id}
+          method: delete
 plugins:
   - serverless-offline
 

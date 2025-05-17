@@ -11,7 +11,7 @@ exports.main = async (event) => {
             TableName : process.env.DYNAMODB_TABLE,
             Key : {id : { S : id}}
         }));
-        console.log(data,'id')
+        // console.log(data,'id')
         if(!data.Item){
             return {
                 statusCode : 404,
